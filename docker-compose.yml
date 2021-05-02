@@ -1,6 +1,6 @@
 services:
       jenkins:
-        image: docker.io/hoto/jenkinsfile-examples
+        image: mnallago/jenkins:latest
         ports:
         - target: 8080
           published: 8080
