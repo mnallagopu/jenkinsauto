@@ -1,0 +1,30 @@
+services:
+      jenkins:
+        image: docker.io/hoto/jenkinsfile-examples
+        ports:
+        - target: 8080
+          published: 8080
+        volumes:
+        - type: bind
+          source: '/var/run/docker.sock'
+          target: '/var/run/docker.sock'
+          read_only: true
+        networks:
+        - jenkins-network
+        tty: true
+    
+      jenkinsfile-loader:
+        image: docker.io/hoto/jenkinsfile-loader:1.1.0
+        environment:
+          JENKINS_URL: 'http://localhost:8080'
+          CONFIGS_XML_DIR: '/usr/local/src/configs'
+          JENKINSFILES_DIR: '/usr/local/src/jenkinsfiles'
+          DEBUG: 'false'
+        depends_on:
+        - jenkins
+        networks:
+        - jenkins-network
+        tty: true
+    
+    networks:
+      jenkins-network:
